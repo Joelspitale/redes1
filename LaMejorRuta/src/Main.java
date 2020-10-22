@@ -25,7 +25,7 @@ public class Main {
 	private static void cargar(Nodo nodo[]) {
 		int i = 0;
 		try {
-			Scanner input = new Scanner(new File("/home/joel/Escritorio/redes1/ProyectoRedes/ProyectoRedes/LaMejorRuta/tablaNodos.txt"));
+			Scanner input = new Scanner(new File("/home/joel/Escritorio/redes1/LaMejorRuta/tablaNodos.txt"));
 			//Leo por fila -> i
 
 			while (input.hasNextLine()) {
@@ -49,21 +49,55 @@ public class Main {
 	}
 
 	public static void dijkstra(Nodo nodo[], int origen, int numeronodos) {
-		int matrizcostos[][] = new int[numeronodos - 1][numeronodos - 1];
-		int vector[] = new int[numeronodos - 1];
+		int largo= (numeronodos - 1 )*2;
+		String matrizcostos[][] = new String[largo][largo];
+		String vector[] = new String[largo];
 		//for(int i=0; i<numeronodos; i++)	//tengo que hacer sumar nodos hasta el numero de nodos -1
-		int i = 0;    //hago la prueba solo para el nodo origen
-		calcularCostos(origen, nodo, vector, i);
+		int i = 0;    //hago la prueba solo para el nodo origen "i"-> indica cuantos nodos adicinales coloco
+		vector = calcularCostos(origen, nodo, vector, i);
+		mostrarVector(vector);
+		escribirMatriz(matrizcostos,vector,i);
+		mostrarMatriz(matrizcostos,largo);
 	}
 
-	public static void calcularCostos(int origen, Nodo nodo[], int vector[], int nronododisponibles) {
+	public static String[] calcularCostos(int origen, Nodo nodo[], String vector[], int nronododisponibles) {
 		Nodo nodosrc = nodo[origen];
-		//calculamos las metricas de cada enlace
+		String src,dst;
+		int metrica=0,offset=0;
+		//calculamos las metricas de cada enlace dentro del nodo
 		for (int j = 0; j < 6; j++) {
 			if (nodosrc.enlace[j].getNodoDestino() != null) {
-				System.out.println(nodosrc.enlace[j].getNodoDestino().getNombre() +
-						nodosrc.enlace[j].getMetrica());
+				src = nodosrc.enlace[j].getNodoOrigen().getNombre();	//obtengo nodo origen
+				dst = nodosrc.enlace[j].getNodoDestino().getNombre();	//obtengo nodo dst
+				metrica = nodosrc.enlace[j].getMetrica();
+				vector[offset] = src + "->" + dst;
+				vector[offset+1] = metrica+"";
+				offset+=2;
 			}
 		}
+		return vector;
+	}
+
+	public static void mostrarVector(String vector[]){
+		for (int j=0; j<vector.length;j++){
+			if(vector[j] != null)
+				System.out.println(vector[j] +"   "+ vector[j+1]);
+			j+=1;
+		}
+	}
+
+	public static String [][] escribirMatriz(String matrizcostos[][],String vector[],int cantNodo) {
+
+		for (int j = 0; j < vector.length; j++)
+			matrizcostos [cantNodo][j] = vector[j];
+		return matrizcostos;
+	}
+
+	public static void mostrarMatriz(String matrizcostos [][],int size){
+		System.out.println("matriz");
+		for (int i = 0; i < size; i++)
+			for (int j = 0; j < size; j++)
+				if(matrizcostos[i][j]!= null)
+					System.out.println(matrizcostos[i][j]);
 	}
 }
