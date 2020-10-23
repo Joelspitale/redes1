@@ -25,7 +25,8 @@ public class Main {
 	private static void cargar(Nodo nodo[]) {
 		int i = 0;
 		try {
-			Scanner input = new Scanner(new File("/home/joel/Escritorio/redes1/ProyectoRedes/ProyectoRedes/LaMejorRuta/tablaNodos.txt"));
+			//Scanner input = new Scanner(new File("/home/joel/Escritorio/redes1/ProyectoRedes/ProyectoRedes/LaMejorRuta/tablaNodos.txt"));
+			Scanner input = new Scanner(new File("tablaNodos.txt"));
 			//Leo por fila -> i
 
 			while (input.hasNextLine()) {
