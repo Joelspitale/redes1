@@ -6,7 +6,7 @@ public class Nodo {
 	private String nombre;
 	Enlace enlace[] = new Enlace[6];
 	private int pesoFinal = 0;
-	private int pesoTemporal = 0;
+	private int pesoTemporal = 1000;
 	private boolean origen = false;
 	private boolean recorrido = false;
 	private List<Nodo> camino = new ArrayList<Nodo>();
@@ -30,6 +30,12 @@ public class Nodo {
 	}
 
 	public List<Nodo> getCamino() {
+		
+		List<Nodo> nodo = new ArrayList<Nodo>();
+		
+		for(int i=0;i<this.camino.size(); i ++)
+		nodo.add(this.camino.get(i));
+		
 		return camino;
 	}
 

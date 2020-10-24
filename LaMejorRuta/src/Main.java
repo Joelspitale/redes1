@@ -112,17 +112,21 @@ public class Main {
 			// Seteo el peso temporal del nodo
 			int pesoTemporal = vecinos.get(i).getMetrica() + nodoOrigen.getPesoFinal();
 			//verifico si la ruta que voy a setear es mejor que la anterior
-			if (pesoTemporal > nodos[numeroNodo].getPesoTemporal()) {
+			if (pesoTemporal < nodos[numeroNodo].getPesoTemporal()) {
 				nodos[numeroNodo].setPesoTemporal(pesoTemporal);			
 				List<Nodo> camino = nodoOrigen.getCamino();
 				camino.add(nodoOrigen);	
 				nodos[numeroNodo].setCamino(camino);
 			}
+			
+			
 
 		}
+		
+				
 		Nodo nodoBarato = getNodoMasBarato(nodos);
 		
-		if(nodoBarato.getPesoTemporal() == 0)
+		if(nodoBarato.getNombre().equals(""))
 			return;
 		
 		nodoBarato.setRecorrido(true);
@@ -133,12 +137,12 @@ public class Main {
 
 	public static Nodo getNodoMasBarato(Nodo[] nodos) {
 		Nodo barato = new Nodo("");
-		barato.setPesoTemporal(0);
+	barato.setPesoTemporal(1000000);;
+		
 		for (int i = 0; i < nodos.length; i++) {
 			// si el peso es 0 es porque todavia no fue seteado, ademas no debe ser el de
 			// origen porque ese siempre pesa 0
-			if ((nodos[i].getPesoTemporal() > 0) && (!nodos[i].isOrigen())
-					&& (nodos[i].getPesoTemporal() < barato.getPesoTemporal()) && (!nodos[i].isRecorrido())) {
+			if ((!nodos[i].isOrigen()) && (nodos[i].getPesoTemporal() < barato.getPesoTemporal()) && (!nodos[i].isRecorrido())) {
 				barato = nodos[i];
 			}
 		}
