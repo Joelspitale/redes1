@@ -115,12 +115,14 @@ public class Main {
 
 		Nodo nodoBarato = getNodoMasBarato(nodos);
 
+		//Punto de corte
 		if (nodoBarato.getNombre().equals(""))
 			return;
 
 		nodoBarato.setRecorrido(true);
 		nodoBarato.setPesoFinal(nodoBarato.getPesoTemporal());
 
+		//Aca empieza la recursividad
 		algoritmo(nodoBarato, nodos);
 	}
 
@@ -129,8 +131,6 @@ public class Main {
 		barato.setPesoTemporal(1000000);
 
 		for (int i = 0; i < nodos.length; i++) {
-			// si el peso es 0 es porque todavia no fue seteado, ademas no debe ser el de
-			// origen porque ese siempre pesa 0
 			if ((!nodos[i].isOrigen()) && (nodos[i].getPesoTemporal() < barato.getPesoTemporal())
 					&& (!nodos[i].isRecorrido())) {
 				barato = nodos[i];
@@ -158,6 +158,7 @@ public class Main {
 		opcion = reader.nextLine();
 		opcion = opcion.toUpperCase().trim();
 
+		//Busco a los nodos que apuntan al nodo tumbado y elimino el enlace
 		for (int i = 0; i < nodos.length; i++) {
 			for (int j = 0; j < nodos[i].enlace.length; j++) {
 				if (nodos[i].enlace[j].getNodoDestino() != null)
@@ -166,6 +167,7 @@ public class Main {
 						nodos[i].enlace[j].setNodoDestino(null);
 			}
 		}
+		//Corto los enlaces del Nodo tumbado con el exterior
 		for (int i = 0; i < nodos.length; i++) {
 			nodos[nodos[0].determinarNumeroNodo(opcion)].enlace[i].setNodoDestino(null);
 		}
@@ -175,6 +177,7 @@ public class Main {
 
 	public static void reset(Nodo[] nodos) {
 
+		//Coloco todos los datos a su valor por defecto
 		for (int i = 0; i < nodos.length; i++) {
 			nodos[i].setPesoFinal(0);
 			nodos[i].setPesoTemporal(1000);
@@ -193,6 +196,7 @@ public class Main {
 		opcion = reader.nextLine();
 		opcion = opcion.toUpperCase().trim();
 
+		//Ubico al nodo seleccionado y lo seteo como nodo de origen
 		Nodo elElegido = nodo[nodo[0].determinarNumeroNodo(opcion)];
 		elElegido.setOrigen(true);
 
@@ -211,6 +215,7 @@ public class Main {
 		opcion = reader.nextLine();
 		opcion = opcion.toUpperCase().trim();
 
+		//Obtengo los enlaces adyacentes a dicho nodo origen
 		List<Enlace> vecinos = nodo[nodo[0].determinarNumeroNodo(opcion)].getVecinos();
 
 		for (int i = 0; i < vecinos.size(); i++) {
@@ -220,6 +225,7 @@ public class Main {
 			opcion = reader.nextLine();
 			opcion = opcion.toUpperCase().trim();
 			if(opcion.equals("S")) {
+				//Actalizo la Metrica
 				System.out.print("Introduzca la nueva metrica");
 				 metricaNueva = reader.nextInt();
 				 vecinos.get(i).setMetrica(metricaNueva);
