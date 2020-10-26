@@ -199,8 +199,10 @@ public class Main {
 		//Ubico al nodo seleccionado y lo seteo como nodo de origen
 		Nodo elElegido = nodo[nodo[0].determinarNumeroNodo(opcion)];
 		elElegido.setOrigen(true);
-
+		long startTime = System.nanoTime();
 		algoritmo(elElegido, nodo);
+		long endTime = System.nanoTime();
+		System.out.println("Usando recursividad  se demoro :"+ ((endTime-startTime)/1e6) +" milisegundos");
 		mostrarTablaNodos(nodo);
 		System.out.print("\n");
 	}
