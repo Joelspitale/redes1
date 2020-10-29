@@ -115,14 +115,14 @@ public class Main {
 
 		Nodo nodoBarato = getNodoMasBarato(nodos);
 
-		//Punto de corte
+		// Punto de corte
 		if (nodoBarato.getNombre().equals(""))
 			return;
 
 		nodoBarato.setRecorrido(true);
 		nodoBarato.setPesoFinal(nodoBarato.getPesoTemporal());
 
-		//Aca empieza la recursividad
+		// Aca empieza la recursividad
 		algoritmo(nodoBarato, nodos);
 	}
 
@@ -142,7 +142,12 @@ public class Main {
 	public static void mostrarTablaNodos(Nodo[] nodo) {
 		System.out.print("\n");
 		for (int i = 0; i < nodo.length; i++) {
-			System.out.print(nodo[i].getNombre() + "\n\t" + "Peso: " + nodo[i].getPesoFinal() + "\n\t" + "Camino: ");
+			if (nodo[i].getPesoFinal() == 1000) {
+				System.out.print(nodo[i].getNombre() + "\n\t" + "Peso: Inaccesible \n\t" + "Camino: ");
+			} else {
+				System.out
+						.print(nodo[i].getNombre() + "\n\t" + "Peso: " + nodo[i].getPesoFinal() + "\n\t" + "Camino: ");
+			}
 			for (int j = 0; j < nodo[i].getCamino().size(); j++) {
 				System.out.print(nodo[i].getCamino().get(j).getNombre() + "\t");
 			}
@@ -158,7 +163,7 @@ public class Main {
 		opcion = reader.nextLine();
 		opcion = opcion.toUpperCase().trim();
 
-		//Busco a los nodos que apuntan al nodo tumbado y elimino el enlace
+		// Busco a los nodos que apuntan al nodo tumbado y elimino el enlace
 		for (int i = 0; i < nodos.length; i++) {
 			for (int j = 0; j < nodos[i].enlace.length; j++) {
 				if (nodos[i].enlace[j].getNodoDestino() != null)
@@ -167,7 +172,7 @@ public class Main {
 						nodos[i].enlace[j].setNodoDestino(null);
 			}
 		}
-		//Corto los enlaces del Nodo tumbado con el exterior
+		// Corto los enlaces del Nodo tumbado con el exterior
 		for (int i = 0; i < nodos.length; i++) {
 			nodos[nodos[0].determinarNumeroNodo(opcion)].enlace[i].setNodoDestino(null);
 		}
@@ -177,7 +182,7 @@ public class Main {
 
 	public static void reset(Nodo[] nodos) {
 
-		//Coloco todos los datos a su valor por defecto
+		// Coloco todos los datos a su valor por defecto
 		for (int i = 0; i < nodos.length; i++) {
 			nodos[i].setPesoFinal(0);
 			nodos[i].setPesoTemporal(1000);
@@ -196,13 +201,13 @@ public class Main {
 		opcion = reader.nextLine();
 		opcion = opcion.toUpperCase().trim();
 
-		//Ubico al nodo seleccionado y lo seteo como nodo de origen
+		// Ubico al nodo seleccionado y lo seteo como nodo de origen
 		Nodo elElegido = nodo[nodo[0].determinarNumeroNodo(opcion)];
 		elElegido.setOrigen(true);
 		long startTime = System.nanoTime();
 		algoritmo(elElegido, nodo);
 		long endTime = System.nanoTime();
-		System.out.println("Usando recursividad  se demoro :"+ ((endTime-startTime)/1e6) +" milisegundos");
+		System.out.println("Usando recursividad  se demoro :" + ((endTime - startTime) / 1e6) + " milisegundos");
 		mostrarTablaNodos(nodo);
 		System.out.print("\n");
 	}
@@ -211,27 +216,94 @@ public class Main {
 
 		Scanner reader = new Scanner(System.in);
 		String opcion = "";
+		String opcion3 = "";
+		int opcion2 = 0;
 		int metricaNueva = 0;
+		System.out.print("Que desea hacer ?\n");
+		System.out.print("1. Modificar metricas\n");
+		System.out.print("2. Agregar enlaces\n");
+		System.out.print("3. Eliminar enlaces\n");
+		opcion2 = reader.nextInt();
+
 		System.out.print("Cual es el nodo de origen del enlace ?\n");
 		System.out.print("A    B	C	D	E	F");
 		opcion = reader.nextLine();
+		opcion = reader.nextLine();
 		opcion = opcion.toUpperCase().trim();
 
-		//Obtengo los enlaces adyacentes a dicho nodo origen
-		List<Enlace> vecinos = nodo[nodo[0].determinarNumeroNodo(opcion)].getVecinos();
+		if (opcion2 == 1) {
+			// Obtengo los enlaces adyacentes a dicho nodo origen
+			List<Enlace> vecinos = nodo[nodo[0].determinarNumeroNodo(opcion)].getVecinos();
 
-		for (int i = 0; i < vecinos.size(); i++) {
-			System.out.print("La metrica con el nodo" + vecinos.get(i).getNodoDestino().getNombre() + "es de: "
-					+ vecinos.get(i).getMetrica() + "\n");
-			System.out.print("Desea cambiarla ?   SI(S)-NO(N) ");
-			opcion = reader.nextLine();
-			opcion = opcion.toUpperCase().trim();
-			if(opcion.equals("S")) {
-				//Actalizo la Metrica
-				System.out.print("Introduzca la nueva metrica");
-				 metricaNueva = reader.nextInt();
-				 vecinos.get(i).setMetrica(metricaNueva);
+			for (int i = 0; i < vecinos.size(); i++) {
+				System.out.print("La metrica con el nodo " + vecinos.get(i).getNodoDestino().getNombre() + " es de: "
+						+ vecinos.get(i).getMetrica() + "\n");
+				System.out.print("Desea cambiarla ?   SI(S)-NO(N) ");
+
+				opcion = reader.nextLine();
+				opcion = reader.nextLine();
+				opcion = opcion.toUpperCase().trim();
+
+				if (opcion.equals("S")) {
+					// Actalizo la Metrica
+					System.out.print("Introduzca la nueva metrica");
+					metricaNueva = reader.nextInt();
+					vecinos.get(i).setMetrica(metricaNueva);
+				}
+
 			}
+		} else if (opcion2 == 2) {
+			List<Integer> ajenos = nodo[nodo[0].determinarNumeroNodo(opcion)].getNodosAjenos();
+
+			if (ajenos.size() == 0) {
+				System.out.print("El nodo ya se encuentra conectado a todos los demas nodos");
+				return;
+			} else {
+				System.out.print("A cual de los siguientes nodos desea conectarlo ? ");
+				System.out.print("\n");
+				for (int i = 0; i < ajenos.size(); i++) {
+					System.out.print(nodo[ajenos.get(i)].getNombre() + "\t");
+				}
+				opcion3 = reader.nextLine();
+				opcion3 = opcion3.toUpperCase().trim();
+				System.out.print("Cual va a ser la metrica ? ");
+				metricaNueva = reader.nextInt();
+
+				nodo[nodo[0].determinarNumeroNodo(opcion)].enlace[nodo[0].determinarNumeroNodo(opcion3)]
+						.setNodoOrigen(nodo[nodo[0].determinarNumeroNodo(opcion)]);
+				nodo[nodo[0].determinarNumeroNodo(opcion)].enlace[nodo[0].determinarNumeroNodo(opcion3)]
+						.setNodoDestino(nodo[nodo[0].determinarNumeroNodo(opcion3)]);
+				nodo[nodo[0].determinarNumeroNodo(opcion)].enlace[nodo[0].determinarNumeroNodo(opcion3)]
+						.setMetrica(metricaNueva);
+
+				System.out.print("Cual va a ser la metrica desde el nodo destino ? ");
+				metricaNueva = reader.nextInt();
+
+				nodo[nodo[0].determinarNumeroNodo(opcion3)].enlace[nodo[0].determinarNumeroNodo(opcion)]
+						.setNodoOrigen(nodo[nodo[0].determinarNumeroNodo(opcion3)]);
+				nodo[nodo[0].determinarNumeroNodo(opcion3)].enlace[nodo[0].determinarNumeroNodo(opcion)]
+						.setNodoDestino(nodo[nodo[0].determinarNumeroNodo(opcion)]);
+				nodo[nodo[0].determinarNumeroNodo(opcion3)].enlace[nodo[0].determinarNumeroNodo(opcion)]
+						.setMetrica(metricaNueva);
+			}
+		} else {
+			List<Enlace> vecinos = nodo[nodo[0].determinarNumeroNodo(opcion)].getVecinos();
+
+			for (int i = 0; i < vecinos.size(); i++) {
+				System.out.print(
+						"El nodo se enucuentra enlazado con: " + vecinos.get(i).getNodoDestino().getNombre() + "\n");
+				System.out.print("Desea eliminar el enlace ?   SI(S)-NO(N) ");
+				opcion3 = reader.nextLine();
+				opcion3 = opcion3.toUpperCase().trim();
+				if (opcion3.equals("S")) {
+					vecinos.get(i).getNodoDestino().enlace[nodo[0].determinarNumeroNodo(opcion)].setNodoDestino(null);
+					nodo[nodo[0].determinarNumeroNodo(opcion)].enlace[nodo[0]
+							.determinarNumeroNodo(vecinos.get(i).getNodoDestino().getNombre())].setNodoDestino(null);
+
+				}
+
+			}
+
 		}
 
 	}

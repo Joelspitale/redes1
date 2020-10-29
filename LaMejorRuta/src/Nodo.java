@@ -127,7 +127,7 @@ public class Nodo {
 		System.out.println("VECINOS");
 		for (int j = 0; j < 6; j++) {
 			if (enlace[j].getNodoDestino() != null) {
-				System.out.println(enlace[j].getNodoDestino().getNombre() + "Metrica = " + enlace[j].getMetrica());
+				System.out.println(enlace[j].getNodoDestino().getNombre() + " Metrica = " + enlace[j].getMetrica());
 			}
 
 		}
@@ -142,5 +142,14 @@ public class Nodo {
 		}
 		return vecinos;
 	}
-
+	
+	public List<Integer> getNodosAjenos() {
+		List<Integer> ajenos = new ArrayList<Integer>();
+		for (int j = 0; j < 6; j++) {
+			if (enlace[j].getNodoDestino() == null) {
+				ajenos.add(j);
+			}
+		}
+		return ajenos;
+	}
 }
