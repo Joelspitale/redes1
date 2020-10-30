@@ -253,6 +253,7 @@ public class Main {
 
 			}
 		} else if (opcion2 == 2) {
+			//Obtengo la ubicacion de los nodos que no estan unidos al nodo seleccionado
 			List<Integer> ajenos = nodo[nodo[0].determinarNumeroNodo(opcion)].getNodosAjenos();
 
 			if (ajenos.size() == 0) {
@@ -268,7 +269,7 @@ public class Main {
 				opcion3 = opcion3.toUpperCase().trim();
 				System.out.print("Cual va a ser la metrica ? ");
 				metricaNueva = reader.nextInt();
-
+				//Conecto el enlace desde el nodo origen al nodo destino
 				nodo[nodo[0].determinarNumeroNodo(opcion)].enlace[nodo[0].determinarNumeroNodo(opcion3)]
 						.setNodoOrigen(nodo[nodo[0].determinarNumeroNodo(opcion)]);
 				nodo[nodo[0].determinarNumeroNodo(opcion)].enlace[nodo[0].determinarNumeroNodo(opcion3)]
@@ -278,7 +279,7 @@ public class Main {
 
 				System.out.print("Cual va a ser la metrica desde el nodo destino ? ");
 				metricaNueva = reader.nextInt();
-
+				//Conecto el enlace desde el nodo destino al nodo origen
 				nodo[nodo[0].determinarNumeroNodo(opcion3)].enlace[nodo[0].determinarNumeroNodo(opcion)]
 						.setNodoOrigen(nodo[nodo[0].determinarNumeroNodo(opcion3)]);
 				nodo[nodo[0].determinarNumeroNodo(opcion3)].enlace[nodo[0].determinarNumeroNodo(opcion)]
@@ -287,6 +288,7 @@ public class Main {
 						.setMetrica(metricaNueva);
 			}
 		} else {
+			// Obtengo los enlaces adyacentes a dicho nodo origen
 			List<Enlace> vecinos = nodo[nodo[0].determinarNumeroNodo(opcion)].getVecinos();
 
 			for (int i = 0; i < vecinos.size(); i++) {
@@ -296,6 +298,7 @@ public class Main {
 				opcion3 = reader.nextLine();
 				opcion3 = opcion3.toUpperCase().trim();
 				if (opcion3.equals("S")) {
+					//Corto los enlaces en ambos sentidos, tanto la que viene del nodo origen, como la del destino
 					vecinos.get(i).getNodoDestino().enlace[nodo[0].determinarNumeroNodo(opcion)].setNodoDestino(null);
 					nodo[nodo[0].determinarNumeroNodo(opcion)].enlace[nodo[0]
 							.determinarNumeroNodo(vecinos.get(i).getNodoDestino().getNombre())].setNodoDestino(null);
